@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TrashCan</string>
+    <string name="btnAdd">ADD</string>
+</resources>
