@@ -24,7 +24,8 @@ public class TrashActivity extends AppCompatActivity {
     private int xMoving;
     private int yMoving;
     private Rect trashRect;
-    //private Rect addZoneRect;
+    private Rect addZoneRect;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,7 @@ public class TrashActivity extends AppCompatActivity {
         btnAdd = (Button)findViewById(R.id.btnAdd);
         addZone = (FrameLayout)findViewById(R.id.addZone);
         trash = (ImageView)findViewById(R.id.trash);
-        //addZoneRect = new Rect();
-        //addZone.getHitRect(addZoneRect);
+
 
 
 
@@ -74,6 +74,10 @@ public class TrashActivity extends AppCompatActivity {
 
         }
 
+        if(addZoneRect==null){
+        addZoneRect = new Rect();
+        addZone.getHitRect(addZoneRect);
+        }
 
 
         tempImageView.setOnTouchListener(new View.OnTouchListener() {
@@ -107,19 +111,22 @@ public class TrashActivity extends AppCompatActivity {
 
                     case MotionEvent.ACTION_MOVE :
 
-                        if(addZone.getLeft()<X-xMoving&&X-xMoving<addZone.getRight()) {
+                        if(addZoneRect.contains(X,Y)) {
+                            //if(addZone.getLeft()<X-xMoving&&X-xMoving<addZone.getRight()
+                            // &&addZone.getTop()<Y-yMoving&&Y-yMoving<addZone.getBottom()) {
                             tempImageView.setTranslationX(X - xMoving);
                             tempImageView.setTranslationY(Y - yMoving);
+                            // }
                         }
-                        if (addZone.getLeft()>X-xMoving){
-                            Log.i(TAG,addZone.getLeft()+"!!!!!!!!!!!!"+addZone.getRight());
-                            tempImageView.setTranslationX(addZone.getLeft());
-
-                        }
-                        if (X+xMoving>addZone.getRight()){
-                            Log.i(TAG,X-xMoving+"@@@@@@@@");
-                            tempImageView.setTranslationX(addZone.getRight()-xMoving);
-                        }
+//                        if (addZone.getLeft()>X-xMoving){
+//                            Log.i(TAG,addZone.getLeft()+"!!!!!!!!!!!!"+addZone.getRight());
+//                            tempImageView.setTranslationX(addZone.getLeft());
+//
+//                        }
+//                        if (X+xMoving>addZone.getRight()){
+//                            Log.i(TAG,X-xMoving+"@@@@@@@@");
+//                            tempImageView.setTranslationX(addZone.getRight()-xMoving);
+//                        }
 
 //                     //   if(!addZoneRect.contains(X-xMoving,Y-yMoving)){
 ////                            tempImageView.setTranslationX(addZoneRect.centerX());
