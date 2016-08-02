@@ -1,6 +1,7 @@
 package com.ge.appl.trashcan;
 
 import android.graphics.Rect;
+import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -132,10 +133,15 @@ public class TrashActivity extends AppCompatActivity {
                             if(addZone.getRight()<=X+tempImageView.getWidth()){
                                 tempImageView.setTranslationX(addZone.getRight()-tempImageView.getWidth());
                             }
-                            if(addZone.getBottom()<Y+tempImageView.getHeight()){
+
+                        //Bottom
+                            if(addZone.getBottom()+tempImageView.getHeight()<Y){
                                 tempImageView.setTranslationY(addZone.getHeight()-tempImageView.getHeight());
                             }
-                            if(addZone.getTop()+btnAdd.getHeight()>Y-yMoving){
+
+                        //Top
+                            //if(addZone.getTop()+btnAdd.getHeight()>Y-yMoving){
+                            if(btnAdd.getY()>tempImageView.getY()){
                                 tempImageView.setTranslationY(addZone.getTop()-btnAdd.getHeight());
                             }
 
