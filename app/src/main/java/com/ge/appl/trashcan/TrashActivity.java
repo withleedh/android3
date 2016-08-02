@@ -21,7 +21,6 @@ public class TrashActivity extends AppCompatActivity {
     private FrameLayout addZone;
     private ImageView trash;
 
-    private int iconStartingPoint;
 
     private int xMoving;
     private int yMoving;
@@ -77,7 +76,6 @@ public class TrashActivity extends AppCompatActivity {
         addZone.getHitRect(addZoneRect);
         }
 
-        iconStartingPoint =  (int)((Math.random()*100));
 
 
         tempImageView.setOnTouchListener(new View.OnTouchListener() {
@@ -137,14 +135,8 @@ public class TrashActivity extends AppCompatActivity {
                             if(addZone.getRight()<=X+tempImageView.getWidth()){
                                 tempImageView.setTranslationX(addZone.getRight()-tempImageView.getWidth());
                             }
-<<<<<<< Updated upstream
-                            if(addZone.getBottom()<Y+tempImageView.getHeight()){
-=======
-
-                        //Bottom
 
                             if(addZone.getBottom()<tempImageView.getY()+tempImageView.getHeight()){
->>>>>>> Stashed changes
                                 tempImageView.setTranslationY(addZone.getHeight()-tempImageView.getHeight());
                             }
                             if(addZone.getTop()+btnAdd.getHeight()>Y-yMoving){
