@@ -66,10 +66,6 @@ public class TrashActivity extends AppCompatActivity {
 
         if(trashRect==null) {
             trashRect = new Rect();
-//            rect.left = trash.getLeft();
-//            rect.right = trash.getRight();
-//            rect.top = trash.getTop();
-//            //rect.bottom = trash.getBottom();
             trash.getHitRect(trashRect);
 
         }
@@ -89,7 +85,6 @@ public class TrashActivity extends AppCompatActivity {
                 int eventAction = event.getAction();
                 int X = (int)event.getRawX();
                 int Y = (int)event.getRawY();
-                //getRawX, getX
 
                 switch(eventAction)
                 {
@@ -111,39 +106,17 @@ public class TrashActivity extends AppCompatActivity {
 
                     case MotionEvent.ACTION_MOVE :
 
-                        if(addZoneRect.contains(X,Y)) {
-                            //if(addZone.getLeft()<X-xMoving&&X-xMoving<addZone.getRight()
-                            // &&addZone.getTop()<Y-yMoving&&Y-yMoving<addZone.getBottom()) {
                             tempImageView.setTranslationX(X - xMoving);
                             tempImageView.setTranslationY(Y - yMoving);
-                            // }
-                        }
-//                        if (addZone.getLeft()>X-xMoving){
-//                            Log.i(TAG,addZone.getLeft()+"!!!!!!!!!!!!"+addZone.getRight());
-//                            tempImageView.setTranslationX(addZone.getLeft());
-//
-//                        }
-//                        if (X+xMoving>addZone.getRight()){
-//                            Log.i(TAG,X-xMoving+"@@@@@@@@");
-//                            tempImageView.setTranslationX(addZone.getRight()-xMoving);
-//                        }
-
-//                     //   if(!addZoneRect.contains(X-xMoving,Y-yMoving)){
-////                            tempImageView.setTranslationX(addZoneRect.centerX());
-////
-////                            tempImageView.setTranslationY(addZoneRect.centerY());
-//                            Log.i(TAG,X+"@@@@@@@");
-//                            Log.i(TAG,Y+"@@@@@@@");
-//                        }
 
                         if(trashRect.contains(X-xMoving,Y-yMoving)){
                             tempImageView.animate().alpha(0.2f).setDuration(500);
-
                         }else{
 
                         }
 
                         break;
+
                     case MotionEvent.ACTION_UP :
 
                         if(trashRect.contains(X-xMoving,Y-yMoving)){
@@ -152,6 +125,20 @@ public class TrashActivity extends AppCompatActivity {
                             tempImageView.animate().alpha(1.0f);
 
                         }
+
+                            if(addZone.getLeft()>X-xMoving){
+                                tempImageView.setTranslationX(addZone.getLeft());
+                            }
+                            if(addZone.getRight()<=X+tempImageView.getWidth()){
+                                tempImageView.setTranslationX(addZone.getRight()-tempImageView.getWidth());
+                            }
+                            if(addZone.getBottom()<Y+tempImageView.getHeight()){
+                                tempImageView.setTranslationY(addZone.getHeight()-tempImageView.getHeight());
+                            }
+                            if(addZone.getTop()+btnAdd.getHeight()>Y-yMoving){
+                                tempImageView.setTranslationY(addZone.getTop()-btnAdd.getHeight());
+                            }
+
                         break;
                 }
                 return true;
