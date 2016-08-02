@@ -21,6 +21,8 @@ public class TrashActivity extends AppCompatActivity {
     private FrameLayout addZone;
     private ImageView trash;
 
+    private int iconStartingPoint;
+
     private int xMoving;
     private int yMoving;
     private Rect trashRect;
@@ -75,6 +77,8 @@ public class TrashActivity extends AppCompatActivity {
         addZone.getHitRect(addZoneRect);
         }
 
+        iconStartingPoint =  (int)((Math.random()*100));
+
 
         tempImageView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -96,13 +100,14 @@ public class TrashActivity extends AppCompatActivity {
                     //커멘트 많이 달자 - 클래스 함수 단위별
                     //로직
                     //익명객체-메모리 생각  -- touch에서 빈번하게 사용하는 객체 한번만 생성해서 사용해서 쓰자.
-                    //터치이벤트 - 보정
+                    //터치이벤트 - 보정  done
                     //레이아웃 마진
                     //애니메이션 학습
 
 
-                    //++ 화면밖으로 못나가게  threshold
-                    //쓰레기통에서 나왔을때 원상태 복구
+                    //++ 화면밖으로 못나가게  threshold   -done
+                    //쓰레기통에서 나왔을때 원상태 복구    -done
+                    //addZone내 랜덤으로 아이콘 들어가기
 
                     case MotionEvent.ACTION_MOVE :
 
@@ -132,7 +137,14 @@ public class TrashActivity extends AppCompatActivity {
                             if(addZone.getRight()<=X+tempImageView.getWidth()){
                                 tempImageView.setTranslationX(addZone.getRight()-tempImageView.getWidth());
                             }
+<<<<<<< Updated upstream
                             if(addZone.getBottom()<Y+tempImageView.getHeight()){
+=======
+
+                        //Bottom
+
+                            if(addZone.getBottom()<tempImageView.getY()+tempImageView.getHeight()){
+>>>>>>> Stashed changes
                                 tempImageView.setTranslationY(addZone.getHeight()-tempImageView.getHeight());
                             }
                             if(addZone.getTop()+btnAdd.getHeight()>Y-yMoving){
@@ -144,8 +156,15 @@ public class TrashActivity extends AppCompatActivity {
                 return true;
             }
         });
-        addZone.addView(tempImageView,new FrameLayout.LayoutParams(300,300));
 
+        //variables for random point
+        int ranX = (int)(Math.random()*800);
+        int ranY = (int)(Math.random()*800);
+
+        //locate icon in addZone
+        addZone.addView(tempImageView,new FrameLayout.LayoutParams(300,300));
+        tempImageView.setTranslationX(ranX);
+        tempImageView.setTranslationY(ranY);
     }
 
 }
