@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.util.Date;
+import java.util.Random;
+
 public class TrashActivity extends AppCompatActivity {
 
     private static final String TAG = "Trash Activity";
@@ -20,8 +23,6 @@ public class TrashActivity extends AppCompatActivity {
     private Button btnAdd;
     private FrameLayout addZone;
     private ImageView trash;
-
-    private int iconStartingPoint;
 
     private int xMoving;
     private int yMoving;
@@ -49,7 +50,7 @@ public class TrashActivity extends AppCompatActivity {
             }
 
         });
-//함수이름 직관성,addIcon
+        //함수이름 직관성,addIcon
 
     }
 
@@ -76,9 +77,6 @@ public class TrashActivity extends AppCompatActivity {
         addZoneRect = new Rect();
         addZone.getHitRect(addZoneRect);
         }
-
-        iconStartingPoint =  (int)((Math.random()*100));
-
 
         tempImageView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -107,49 +105,34 @@ public class TrashActivity extends AppCompatActivity {
 
                     //++ 화면밖으로 못나가게  threshold   -done
                     //쓰레기통에서 나왔을때 원상태 복구    -done
-                    //addZone내 랜덤으로 아이콘 들어가기
+                    //addZone내 랜덤으로 아이콘 들어가기   -done
 
                     case MotionEvent.ACTION_MOVE :
 
                             tempImageView.setTranslationX(X - xMoving);
                             tempImageView.setTranslationY(Y - yMoving);
 
+                        //쓰레기통 밖으로 빠질때 적용하기
                         if(trashRect.contains(X-xMoving,Y-yMoving)){
                             tempImageView.animate().alpha(0.2f).setDuration(500);
                         }else{
 
+                        }
+                        locateIconWithinAddzone(tempImageView,X,Y);
+                        //함수로 빼기,naming   o
+
+                        if(!trashRect.contains(X-xMoving,Y-yMoving)&&!(tempImageView.getAlpha()==1.0f)){
+                            tempImageView.animate().alpha(1.0f);
                         }
 
                         break;
 
                     case MotionEvent.ACTION_UP :
 
-                        if(trashRect.contains(X-xMoving,Y-yMoving)){
+                        //remove icon when trash contains icon.
+                        if(trashRect.contains(X-xMoving,Y-yMoving)) {
                             addZone.removeView(tempImageView);
-                        }else{
-                            tempImageView.animate().alpha(1.0f);
-
                         }
-
-                            if(addZone.getLeft()>X-xMoving){
-                                tempImageView.setTranslationX(addZone.getLeft());
-                            }
-                            if(addZone.getRight()<=X+tempImageView.getWidth()){
-                                tempImageView.setTranslationX(addZone.getRight()-tempImageView.getWidth());
-                            }
-<<<<<<< Updated upstream
-                            if(addZone.getBottom()<Y+tempImageView.getHeight()){
-=======
-
-                        //Bottom
-
-                            if(addZone.getBottom()<tempImageView.getY()+tempImageView.getHeight()){
->>>>>>> Stashed changes
-                                tempImageView.setTranslationY(addZone.getHeight()-tempImageView.getHeight());
-                            }
-                            if(addZone.getTop()+btnAdd.getHeight()>Y-yMoving){
-                                tempImageView.setTranslationY(addZone.getTop()-btnAdd.getHeight());
-                            }
 
                         break;
                 }
@@ -157,14 +140,43 @@ public class TrashActivity extends AppCompatActivity {
             }
         });
 
-        //variables for random point
-        int ranX = (int)(Math.random()*800);
-        int ranY = (int)(Math.random()*800);
+        //variables for random point - random and seed
+
+        Random rnd = new Random();
+        rnd.setSeed(System.currentTimeMillis());
+
+        int ranX = (int)(rnd.nextDouble()*800);
+        int ranY = (int)(rnd.nextDouble()*800);
 
         //locate icon in addZone
         addZone.addView(tempImageView,new FrameLayout.LayoutParams(300,300));
         tempImageView.setTranslationX(ranX);
         tempImageView.setTranslationY(ranY);
+    }
+
+    private void locateIconWithinAddzone(ImageView tempImageView,int X, int Y){
+        if(addZone.getLeft()>X-xMoving){
+            tempImageView.setTranslationX(addZone.getLeft());
+        } else {
+            //do nothing.
+        }
+        if(addZone.getRight()<=X+tempImageView.getWidth()){
+            tempImageView.setTranslationX(addZone.getRight()-tempImageView.getWidth());
+        } else {
+            //do nothing.
+        }
+
+        if(addZone.getBottom()<tempImageView.getY()+tempImageView.getHeight()){
+            tempImageView.setTranslationY(addZone.getHeight()-tempImageView.getHeight());
+        } else {
+            //do nothing.
+        }
+
+        if(addZone.getTop()+btnAdd.getHeight()>Y-yMoving){
+            tempImageView.setTranslationY(addZone.getTop()-btnAdd.getHeight());
+        } else {
+            //do nothing.
+        }
     }
 
 }
